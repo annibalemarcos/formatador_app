@@ -1,0 +1,280 @@
+:root {
+  --soft-bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --ink: #212529;
+  --muted: #6c757d;
+  --primary: #3957ff;
+}
+
+body {
+  background: var(--soft-bg);
+  color: var(--ink);
+}
+
+.navbar {
+  backdrop-filter: blur(10px);
+}
+
+.brand-icon {
+  width: 34px;
+  height: 34px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #eef1ff;
+  color: var(--primary);
+}
+
+.card {
+  background: var(--card-bg);
+}
+
+.btn,
+.form-control,
+.form-select,
+.input-group-text {
+  border-radius: 10px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.panel-card {
+  position: static;
+  top: auto;
+  z-index: 2;
+}
+
+.editor-card {
+  min-height: 430px;
+}
+
+.code-area {
+  height: calc(14 * 1.6em + 1.6rem) !important;
+  min-height: calc(14 * 1.6em + 1.6rem) !important;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.97rem;
+  line-height: 1.6;
+  resize: vertical;
+  background: #fcfcfd;
+}
+
+.preview {
+  min-height: 320px;
+  max-height: 700px;
+  overflow: auto;
+}
+
+.preview h1,
+.preview h2,
+.preview h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.preview pre {
+  background: #111827;
+  color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.preview blockquote {
+  border-left: 4px solid #adb5bd;
+  padding-left: 1rem;
+  color: var(--muted);
+}
+
+.preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.preview th,
+.preview td {
+  border: 1px solid #dee2e6;
+  padding: 0.6rem;
+}
+
+@media (max-width: 1199px) {
+  .panel-card {
+  position: static;
+  top: auto;
+  z-index: 2;
+}
+
+  .editor-card {
+  min-height: 430px;
+}
+
+  .code-area {
+  height: calc(14 * 1.6em + 1.6rem) !important;
+  min-height: calc(14 * 1.6em + 1.6rem) !important;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.97rem;
+  line-height: 1.6;
+  resize: vertical;
+  background: #fcfcfd;
+}
+}
+
+
+.preview-plain {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #212529;
+}
+
+.preset {
+  text-align: left;
+}
+
+
+.action-picker .btn {
+  border-radius: 0;
+}
+
+.action-picker .btn:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.multi-list {
+  max-height: 220px;
+  overflow: auto;
+}
+
+.multi-action-row {
+  animation: softIn 0.12s ease-in;
+}
+
+.preset {
+  text-align: left;
+}
+
+@keyframes softIn {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.sidebar-accordion-card {
+  overflow: hidden;
+}
+
+.sidebar-accordion .accordion-item {
+  border: 0;
+  border-bottom: 1px solid #eef0f2;
+}
+
+.sidebar-accordion .accordion-item:last-child {
+  border-bottom: 0;
+}
+
+.sidebar-accordion .accordion-button {
+  background: #ffffff;
+  border-radius: 10px !important;
+  font-weight: 700;
+  padding: 0.85rem 0.75rem;
+  box-shadow: none;
+}
+
+.sidebar-accordion .accordion-button:not(.collapsed) {
+  background: #f8f9fa;
+  color: #212529;
+  box-shadow: none;
+}
+
+.sidebar-accordion .accordion-body {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-bottom: 1rem;
+}
+
+.panel-card {
+  position: static;
+  top: auto;
+  z-index: 2;
+}
+
+
+.card .form-text {
+  color: #6c757d;
+}
+
+
+.sidebar-accordion-card {
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar-accordion .form-text {
+  color: #6c757d;
+}
+
+
+main > .row {
+  align-items: flex-start;
+}
+
+.sidebar-accordion-card {
+  position: relative;
+  z-index: 1;
+}
+
+
+.special-actions-card .form-label {
+  margin-bottom: 0.25rem;
+}
+
+.special-actions-card .form-control,
+.special-actions-card .input-group-text {
+  font-size: 0.92rem;
+}
+
+.special-actions-card .form-check-label,
+.special-actions-card .form-text {
+  font-size: 0.86rem;
+}
+
+.special-actions-card hr {
+  opacity: 0.15;
+}
+
+
+.special-actions-accordion .accordion-item {
+  border: 0;
+}
+
+.special-actions-accordion .accordion-button {
+  background: #ffffff;
+  border-radius: 10px !important;
+  font-weight: 700;
+  padding: 0.85rem 0.75rem;
+  box-shadow: none;
+}
+
+.special-actions-accordion .accordion-button:not(.collapsed) {
+  background: #f8f9fa;
+  color: #212529;
+  box-shadow: none;
+}
+
+.special-actions-accordion .accordion-body {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-bottom: 1rem;
+}
+
+
+
+#formatSpecialActionBtn {
+  font-weight: 600;
+}

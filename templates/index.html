@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formatador de Listas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+        <span class="brand-icon"><i class="bi bi-magic"></i></span>
+        Formatador
+      </a>
+      <div class="d-flex align-items-center gap-2 small text-secondary flex-wrap justify-content-end">
+        <span class="badge rounded-pill text-bg-light border">Flask</span>
+        <span class="badge rounded-pill text-bg-light border">Porta 5442</span>
+        <span class="badge rounded-pill text-bg-light border">Telegram + WhatsApp + Python</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-fluid px-4 py-4">
+    <div class="row g-4 align-items-start">
+      <section class="col-12 col-xl-3">
+        <div class="card rounded-3 shadow-sm border-0 panel-card">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-start justify-content-between mb-3">
+              <div>
+                <h1 class="h4 mb-1">Central de formatação</h1>
+                <p class="text-secondary mb-0">Joga a bagunça. Sai texto pronto. Agora com truques para Telegram, WhatsApp e Python. Canivete suíço, mas sem ferrugem.</p>
+              </div>
+            </div>
+
+            <label class="form-label fw-semibold">Ação</label>
+            <div class="input-group mb-3 action-picker">
+              <select id="mode" class="form-select rounded-start-3">
+              <optgroup label="Geral">
+                <option value="clean">Limpar linhas vazias</option>
+                <option value="unique">Remover duplicadas</option>
+                <option value="bullets">Lista com bullets</option>
+                <option value="checkbox">Checklist Markdown</option>
+                <option value="numbered">Lista numerada</option>
+                <option value="quote">Bloco de citação</option>
+                <option value="comma">Separar por vírgula</option>
+                <option value="pipe">Separar por pipe</option>
+                <option value="lower">Tudo minúsculo</option>
+                <option value="upper">Tudo maiúsculo</option>
+                <option value="title">Título / Capitalizado</option>
+                <option value="slug">Slug / URL amigável</option>
+                <option value="obsidian">Links Obsidian [[...]]</option>
+                <option value="table">Tabela Markdown</option>
+                <option value="code">Bloco de código genérico</option>
+                <option value="bash">Bloco de código bash</option>
+                <option value="python">Bloco de código Python</option>
+                <option value="links">Extrair links únicos</option>
+                <option value="blank_between">Pular uma linha entre itens</option>
+                <option value="code_each">Bloco de código para cada item</option>
+                <option value="dashboard">Gerar Dashboard Diário</option>
+                <option value="add_before">Adicionar antes</option>
+                <option value="add_after">Adicionar após</option>
+                <option value="add_between">Adicionar entre</option>
+                <option value="replace_text">Trocar</option>
+                <option value="repeat_input">Repetir entrada</option>
+              </optgroup>
+              <optgroup label="Python List Maker">
+                <option value="python_list_vertical">Python list: deixar em pé</option>
+              </optgroup>
+              <optgroup label="Snippets">
+                <option value="snippet_python_cli">Snippet Python: CLI com argparse</option>
+                <option value="snippet_python_flask">Snippet Python: Flask API</option>
+                <option value="snippet_python_read_write">Snippet Python: ler e salvar TXT</option>
+                <option value="snippet_bat_runner">Snippet BAT: rodar app Python</option>
+                <option value="snippet_bat_four_terminals">Snippet BAT: abrir 4 terminais</option>
+                <option value="snippet_powershell_runner">Snippet PowerShell: rodar app</option>
+                <option value="snippet_git_basic">Snippet Git: add/commit/push</option>
+                <option value="snippet_requirements">Snippet requirements.txt</option>
+                <option value="jsonificar_services">Jsonificar serviços</option>
+              </optgroup>
+              <optgroup label="Telegram">
+                <option value="telegram_bullets">Telegram • Lista com bullets</option>
+                <option value="telegram_numbered">Telegram 1) Lista numerada</option>
+                <option value="telegram_quote">Telegram &gt; Citação</option>
+                <option value="telegram_spoiler">Telegram ||Spoiler||</option>
+                <option value="telegram_bold">Telegram **Negrito por linha**</option>
+              </optgroup>
+              <optgroup label="WhatsApp">
+                <option value="whatsapp_bullets">WhatsApp • Lista com bullets</option>
+                <option value="whatsapp_checklist">WhatsApp ☐ Checklist</option>
+                <option value="whatsapp_bold">WhatsApp *Negrito por linha*</option>
+                <option value="whatsapp_italic">WhatsApp _Itálico por linha_</option>
+                <option value="whatsapp_strike">WhatsApp ~Riscado por linha~</option>
+              </optgroup>
+              </select>
+              <button id="favoriteBtn" class="btn btn-outline-warning" type="button" title="Adicionar ação aos favoritos">
+                <i class="bi bi-star"></i>
+              </button>
+              <button id="removeFavoriteBtn" class="btn btn-outline-danger rounded-end-3" type="button" title="Remover ação dos favoritos">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </div>
+
+            <div class="accordion mb-3" id="multiActionsAccordion">
+              <div class="accordion-item rounded-3 border">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#multiActionsPanel">
+                    <i class="bi bi-layers me-2"></i> Múltiplas ações
+                  </button>
+                </h2>
+                <div id="multiActionsPanel" class="accordion-collapse collapse" data-bs-parent="#multiActionsAccordion">
+                  <div class="accordion-body">
+                    <div class="d-grid gap-2 mb-3">
+                      <select id="multiActionSelect" class="form-select rounded-3"></select>
+                      <button id="addMultiActionBtn" class="btn btn-outline-primary rounded-3" type="button">
+                        <i class="bi bi-plus-circle me-1"></i> Adicionar ação na sequência
+                      </button>
+                    </div>
+
+                    <div id="multiActionsList" class="multi-list small mb-3">
+                      <span class="text-secondary">Nenhuma ação adicionada ainda.</span>
+                    </div>
+
+                    <div class="input-group">
+                      <input id="multiFavoriteName" class="form-control rounded-start-3" placeholder="Nome da sequência favorita">
+                      <button id="saveMultiFavoriteBtn" class="btn btn-outline-warning rounded-end-3" type="button" title="Salvar múltiplas ações favoritas">
+                        <i class="bi bi-star"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button id="formatBtn" class="btn btn-primary rounded-3 py-2">
+                <i class="bi bi-wand me-1"></i> Formatar
+              </button>
+              <button id="copyBtn" class="btn btn-outline-dark rounded-3 py-2">
+                <i class="bi bi-clipboard me-1"></i> Copiar resultado
+              </button>
+              <button id="clearBtn" class="btn btn-outline-secondary rounded-3 py-2">
+                <i class="bi bi-trash3 me-1"></i> Limpar tudo
+              </button>
+            </div>
+
+            <hr class="my-4">
+
+            <label class="form-label fw-semibold">Exportar</label>
+            <div class="input-group mb-2">
+              <input id="filename" class="form-control rounded-start-3" value="dashboard_diario.md">
+              <button id="exportBtn" class="btn btn-success rounded-end-3">
+                <i class="bi bi-download"></i>
+              </button>
+            </div>
+            <div id="exportBox" class="small"></div>
+          </div>
+        </div>
+
+        <div class="card rounded-3 shadow-sm border-0 mt-4 special-actions-card">
+          <div class="card-body p-3">
+            <div class="accordion accordion-flush special-actions-accordion" id="specialActionsAccordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSpecialActions">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpecialActions" aria-expanded="false" aria-controls="collapseSpecialActions">
+                    <i class="bi bi-tools me-2"></i> Ações especiais
+                  </button>
+                </h2>
+                <div id="collapseSpecialActions" class="accordion-collapse collapse" aria-labelledby="headingSpecialActions" data-bs-parent="#specialActionsAccordion">
+                  <div class="accordion-body pt-2">
+<div class="row g-2">
+              <div class="col-12">
+                <label class="form-label fw-semibold">Adicionar antes</label>
+                <input id="addBeforeText" class="form-control rounded-3" placeholder="Ex: /fone">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold">Adicionar após</label>
+                <input id="addAfterText" class="form-control rounded-3" placeholder="Ex: /fone">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold">Adicionar entre</label>
+                <input id="addBetweenText" class="form-control rounded-3" placeholder="Ex: +">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold">Quero substituir</label>
+                <input id="replaceFromText" class="form-control rounded-3" placeholder="Ex: cruel">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold">Por</label>
+                <input id="replaceToText" class="form-control rounded-3" placeholder="Ex: feliz">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold">Qtd repetições</label>
+                <input id="repeatCountText" type="number" min="1" max="10000" class="form-control rounded-3" value="5">
+              </div>
+            </div>
+
+            <hr class="my-3">
+
+            <div class="form-check form-switch mb-2">
+              <input id="blankLinesBeforeCheck" class="form-check-input" type="checkbox">
+              <label class="form-check-label" for="blankLinesBeforeCheck">Permitir blank lines antes</label>
+            </div>
+
+            <div class="input-group input-group-sm mb-2">
+              <span class="input-group-text">Linhas antes</span>
+              <input id="blankLinesBeforeCount" type="number" min="1" max="30" class="form-control" value="3">
+            </div>
+
+            <div class="form-check form-switch mb-2">
+              <input id="blankLinesAfterCheck" class="form-check-input" type="checkbox">
+              <label class="form-check-label" for="blankLinesAfterCheck">Permitir blank lines depois</label>
+            </div>
+
+            <div class="input-group input-group-sm mb-2">
+              <span class="input-group-text">Linhas depois</span>
+              <input id="blankLinesAfterCount" type="number" min="1" max="30" class="form-control" value="3">
+            </div>
+
+            <div class="form-check form-switch">
+              <input id="preserveSpacesCheck" class="form-check-input" type="checkbox">
+              <label class="form-check-label" for="preserveSpacesCheck">Permitir blank spaces antes/depois</label>
+            </div>
+
+            <div class="form-text mt-2">
+              Use essas ações escolhendo <strong>Adicionar antes/após/entre</strong>, <strong>Trocar</strong> ou <strong>Repetir entrada</strong> no seletor principal ou em múltiplas ações.
+            </div>
+            <div class="mt-3">
+              <label class="form-label fw-semibold">Ação especial para aplicar</label>
+              <select id="specialActionMode" class="form-select rounded-3 mb-2">
+                <option value="add_before">Adicionar antes</option>
+                <option value="add_after">Adicionar após</option>
+                <option value="add_between">Adicionar entre</option>
+                <option value="replace_text">Trocar</option>
+                <option value="repeat_input">Repetir entrada</option>
+              </select>
+
+              <button id="formatSpecialActionBtn" class="btn btn-primary rounded-3 w-100" type="button">
+                <i class="bi bi-play-fill me-1"></i> Formatar ação especial
+              </button>
+            </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card rounded-3 shadow-sm border-0 mt-4 sidebar-accordion-card">
+          <div class="card-body p-3">
+            <div class="accordion accordion-flush sidebar-accordion" id="sidebarToolsAccordion">
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFavoriteActions">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFavoriteActions" aria-expanded="false" aria-controls="collapseFavoriteActions">
+                    <i class="bi bi-star me-2"></i> Ações favoritas
+                  </button>
+                </h2>
+                <div id="collapseFavoriteActions" class="accordion-collapse collapse" aria-labelledby="headingFavoriteActions" data-bs-parent="#sidebarToolsAccordion">
+                  <div class="accordion-body pt-2">
+                    <select id="favoriteActionsDropdown" class="form-select rounded-3 mb-2">
+                      <option value="">Nenhuma favorita ainda</option>
+                    </select>
+                    <button id="useFavoriteActionBtn" class="btn btn-light border rounded-3 w-100 mb-2" type="button">
+                      <i class="bi bi-arrow-return-right me-1"></i> Usar favorita
+                    </button>
+                    <button id="formatFavoriteActionBtn" class="btn btn-primary rounded-3 w-100" type="button">
+                      <i class="bi bi-play-fill me-1"></i> Formatar com favorita
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFavoriteMulti">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFavoriteMulti" aria-expanded="false" aria-controls="collapseFavoriteMulti">
+                    <i class="bi bi-stars me-2"></i> Múltiplas ações favoritas
+                  </button>
+                </h2>
+                <div id="collapseFavoriteMulti" class="accordion-collapse collapse" aria-labelledby="headingFavoriteMulti" data-bs-parent="#sidebarToolsAccordion">
+                  <div class="accordion-body pt-2">
+                    <select id="favoriteMultiDropdown" class="form-select rounded-3 mb-2">
+                      <option value="">Nenhuma sequência favorita ainda</option>
+                    </select>
+                    <button id="useFavoriteMultiBtn" class="btn btn-light border rounded-3 w-100 mb-2" type="button">
+                      <i class="bi bi-layers me-1"></i> Carregar sequência
+                    </button>
+                    <button id="formatFavoriteMultiBtn" class="btn btn-primary rounded-3 w-100" type="button">
+                      <i class="bi bi-play-fill me-1"></i> Formatar com sequência
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingPresets">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePresets" aria-expanded="false" aria-controls="collapsePresets">
+                    <i class="bi bi-lightning-charge me-2"></i> Presets rápidos
+                  </button>
+                </h2>
+                <div id="collapsePresets" class="accordion-collapse collapse" aria-labelledby="headingPresets" data-bs-parent="#sidebarToolsAccordion">
+                  <div class="accordion-body pt-2">
+                    <div class="d-grid gap-2">
+              <button class="btn btn-light border rounded-3 preset" data-mode="dashboard">Dashboard Diário</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="python_list_vertical">Python list em pé</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="snippet_python_cli">Snippet Python CLI</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="snippet_bat_runner">Snippet BAT runner</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="snippet_git_basic">Snippet Git básico</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="jsonificar_services">Jsonificar serviços</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="checkbox">Lista de tarefas</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="obsidian">Projetos Obsidian</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="links">Caça-links</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="telegram_bullets">Telegram bullets</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="whatsapp_checklist">WhatsApp checklist</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="blank_between">Pular linha</button>
+              <button class="btn btn-light border rounded-3 preset" data-mode="code_each">Código por item</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-12 col-xl-9">
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            <div class="card rounded-3 shadow-sm border-0 editor-card">
+              <div class="card-header bg-white border-0 p-4 pb-2 d-flex justify-content-between align-items-center">
+                <div>
+                  <h2 class="h5 mb-1">Entrada</h2>
+                  <p class="text-secondary small mb-0">Cole listas, palavras, links, CSV simples ou qualquer caos controlado.</p>
+                </div>
+                <button id="sampleBtn" class="btn btn-sm btn-outline-primary rounded-3">Exemplo</button>
+              </div>
+              <div class="card-body p-4 pt-2">
+                <textarea id="inputText" class="form-control rounded-3 code-area" rows="14" spellcheck="false" placeholder="Cole seu texto aqui..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <div class="card rounded-3 shadow-sm border-0 editor-card">
+              <div class="card-header bg-white border-0 p-4 pb-2 d-flex justify-content-between align-items-center">
+                <div>
+                  <h2 class="h5 mb-1">Resultado</h2>
+                  <p class="text-secondary small mb-0">Texto final pronto pra copiar, enviar ou salvar.</p>
+                </div>
+                <span id="stats" class="badge rounded-pill text-bg-light border">0 caracteres</span>
+              </div>
+              <div class="card-body p-4 pt-2">
+                <textarea id="outputText" class="form-control rounded-3 code-area" rows="14" spellcheck="false" placeholder="O resultado aparece aqui..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="card rounded-3 shadow-sm border-0">
+              <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                  <div>
+                    <h2 class="h5 mb-1">Preview fiel</h2>
+                    <p class="text-secondary small mb-0">Preview fiel: preserva quebras de linha, blocos de código e espaçamento do resultado.</p>
+                  </div>
+                  <button id="previewBtn" class="btn btn-outline-dark rounded-3 btn-sm">
+                    <i class="bi bi-eye me-1"></i> Atualizar preview
+                  </button>
+                </div>
+                <div id="preview" class="preview rounded-3 border bg-light p-4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toast" class="toast rounded-3 shadow-sm" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body" id="toastBody">Pronto.</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
